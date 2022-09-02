@@ -76,16 +76,30 @@ package body VGMStream.Extra is
 	-- Export VGMStream input file to WAV file
 	procedure Export_Wav (O : String; I : String) is
 		V : VGMStream_Access := VGMStream_Init (I);
-		F : Ada.Streams.Stream_IO.File_Type;
-		S : Stream_Access;
 	begin	
 		if V = null then
 			raise Export_Exception with "Could not create VGMStream";
 		end if;
 
+		Export_Wav (O, V);
+	end Export_Wav;
+
+	-- More rudimentary exporter that takes a VGMStream_Access
+	procedure Export_Wav (
+		O : String;
+		V : VGMStream_Access)
+	is
+		F : Ada.Streams.Stream_IO.File_Type;
+		S : Stream_Access;
+	begin
+		if V = null then
+			raise Export_Exception with "Invalid VGMStream provided";
+		end if;
+
 		if Exists (O) then
 			raise Export_Exception with "File exists";
 		end if;
+
 		Create (F, Out_File, O);
 		S := Stream (F);
 

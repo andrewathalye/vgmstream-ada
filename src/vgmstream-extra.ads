@@ -9,6 +9,7 @@ package VGMStream.Extra is
 	function Get_Length (S : String) return Natural;
 	function Get_Length_Seconds (S : String) return Float;
 	procedure Export_Wav (O : String; I : String);
+	procedure Export_Wav (O : String; V : VGMStream_Access);
 
 	-- Swap samples so that output is Little Endian
 	procedure Swap_Samples_LE (A : System.Address; Count : int) 
