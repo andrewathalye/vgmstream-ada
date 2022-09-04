@@ -8,8 +8,13 @@ then
 	rm r1721.tar.gz
 fi
 
-if [ ! -f ext_lib/libvgmstream.so ]
+if [ ! -f ext_lib/libvgmstream.so ] && [ ! -f ext_lib/libvgmstream.dll ]
 then
+	if [ ! -d ext_lib ]
+	then
+		mkdir ext_lib
+	fi;
+
 	cd ext_src
 	mkdir build
 	cd build

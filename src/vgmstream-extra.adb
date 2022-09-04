@@ -82,6 +82,7 @@ package body VGMStream.Extra is
 		end if;
 
 		Export_Wav (O, V);
+		VGMStream_Close (V);
 	end Export_Wav;
 
 	-- More rudimentary exporter that takes a VGMStream_Access
@@ -115,11 +116,13 @@ package body VGMStream.Extra is
 		begin
 			while I < L loop
 				T := (if I + Sample_Buffer_Size > L then L - I else Sample_Buffer_Size); -- Target samples export
+
 				if VGMStream_Render (B'Address, int (T), V) /= int (T) then
 					Put_Line (Standard_Error, "[Warning] Less samples than expected returned");
 				end if;
 
 				Swap_Samples_LE (B'Address, V.all.channels * int (T));
+
 				Sample_Buffer'Write (S, B);	
 
 				I := I + Sample_Buffer_Size;
@@ -127,7 +130,6 @@ package body VGMStream.Extra is
 		end;
 	
 		Close (F);
-		VGMStream_Close (V);
 	end Export_Wav;
 	
 end VGMStream.Extra;
